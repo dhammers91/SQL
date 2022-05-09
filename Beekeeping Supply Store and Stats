@@ -1,0 +1,20 @@
+CREATE TABLE bees (id INTEGER PRIMARY KEY, name TEXT, inventory TEXT, price INTEGER, popularity INTEGER);
+
+INSERT INTO bees VALUES (1, "smoker", 5, 20, 8);
+INSERT INTO bees VALUES (2, "suit", 5, 50, 10);
+INSERT INTO bees VALUES (3, "hive tool", 20, 5, 6);
+INSERT INTO bees VALUES (4, "shallow super", 50, 20, 5);
+INSERT INTO bees VALUES (5, "medium super", 35, 30, 7);
+INSERT INTO bees VALUES (6, "deep super", 30, 40, 9);
+INSERT INTO bees VALUES (7, "bottom board", 15, 15, 7);
+INSERT INTO bees VALUES (8, "screened bottom board", 10, 25, 8);
+INSERT INTO bees VALUES (9, "inner cover", 8, 10, 9);
+INSERT INTO bees VALUES (10, "plain outter cover", 3, 15, 4);
+INSERT INTO bees VALUES (11, "aluminum outter cover", 6, 25, 9);
+INSERT INTO bees VALUES (12, "1 gallon sugar syrup", 10, 8, 3);
+INSERT INTO bees VALUES (13, "5 gallon sugar syrup", 200, 25, 10);
+INSERT INTO bees VALUES (14, "pollen patty", 13, 4, 7);
+INSERT INTO bees VALUES (15, "pollen trap", 1, 12, 9);
+
+SELECT * FROM bees ORDER BY price;
+SELECT SUM(inventory) FROM bees; 
