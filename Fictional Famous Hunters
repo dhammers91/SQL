@@ -1,0 +1,82 @@
+/* Create table about the people and what they do here */
+CREATE TABLE hunters (ID INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, birth_year INTEGER, marital_status TEXT, home_state TEXT);
+
+INSERT INTO hunters VALUES (1, 'John', 'Cook', 1960, 'Divorced', 'Oklahoma');
+INSERT INTO hunters VALUES (2, 'Bill', 'North', 1942, 'Divorced', 'Nebraska');
+INSERT INTO hunters VALUES (3, 'Shane', 'Down', 1977, 'Divorced', 'Minnesota');
+INSERT INTO hunters VALUES (4, 'Marcus', 'Sheply', 1985, 'Married', 'Tennessee');
+INSERT INTO hunters VALUES (5, 'Dan', 'Till', 1991, 'Single', 'Michigan');
+INSERT INTO hunters VALUES (6, 'Pete', 'Bush', 1974, 'Married', 'Missouri');
+INSERT INTO hunters VALUES (7, 'Daniel', 'Boone', 1957, 'Single', 'Maine');
+INSERT INTO hunters VALUES (8, 'George', 'Lenz', 1988, 'Divorced', 'Texas');
+INSERT INTO hunters VALUES (9, 'Heath', 'Smith', 1965, 'Married', 'California');
+INSERT INTO hunters VALUES (10, 'Paul', 'Tinny', 1966, 'Divorced', 'Iowa');
+INSERT INTO hunters VALUES (11, 'Randy', 'Jim', 1952, 'Married', 'Arkansas');
+INSERT INTO hunters VALUES (12, 'Tim', 'Spee', 1994, 'Single', 'Florida');
+INSERT INTO hunters VALUES (13, 'Rodger', 'Ford', 1949, 'Divorced', 'New Mexico');
+INSERT INTO hunters VALUES (14, 'Tom', 'Thump', 1992, 'Single', 'North Dakota');
+INSERT INTO hunters VALUES (15, 'Ben', 'Steiner', 1980, 'Married', 'Nevada');
+INSERT INTO hunters VALUES (16, 'Timmy', 'Jones', 2000, 'Single', 'Montana');
+
+CREATE TABLE game_type (ID INTEGER PRIMARY KEY, upland TEXT, wetland TEXT, big_game TEXT, small_game TEXT);
+
+INSERT INTO game_type VALUES (1, Null, 'Geese', 'Elk', 'Rabbit');
+INSERT INTO game_type VALUES (2, 'Quail', 'Geese', NULL, NULL);
+INSERT INTO game_type VALUES (3, NULL, NULL, NULL, 'Raccoon');
+INSERT INTO game_type VALUES (4, 'Partridge', 'Ducks', NULL, NULL);
+INSERT INTO game_type VALUES (5, 'Pheasants', 'Ducks', 'Moose', 'Squirrel');
+INSERT INTO game_type VALUES (6, 'Quail', 'Geese', 'Elk', 'Coyotes');
+INSERT INTO game_type VALUES (7, 'Pheasants', 'Ducks', 'Bison', NULL);
+INSERT INTO game_type VALUES (8, NULL, NULL, 'Grizzly Bear', NULL);
+INSERT INTO game_type VALUES (9, 'Dove', 'Ducks', 'Moose', 'Coyotes');
+INSERT INTO game_type VALUES (10, 'Quail', 'Ducks', 'Elk', 'Raccoon');
+INSERT INTO game_type VALUES (11, 'Partridge', NULL, NULL, 'Rabbit');
+INSERT INTO game_type VALUES (12, 'Pheasants', 'Geese', 'Elk', 'Coyotes');
+INSERT INTO game_type VALUES (13, 'Quail', 'Ducks', 'Bison', 'Raccoon');
+INSERT INTO game_type VALUES (14, NULL, 'Geese', NULL,NULL);
+INSERT INTO game_type VALUES (15, 'Quail', 'Ducks', 'Grizzly Bear', 'Rabbit');
+INSERT INTO game_type VALUES (16, 'Pheasants', 'Ducks', 'Elk', NULL);
+
+CREATE TABLE hunting_buddies (ID INTEGER PRIMARY KEY, hunting_buddy1 INTEGER, hunting_buddy2 INTEGER);
+
+INSERT INTO hunting_buddies VALUES (1, 10, 3);
+INSERT INTO hunting_buddies VALUES (2, 9, 4);
+INSERT INTO hunting_buddies VALUES (3, 8, 1);
+INSERT INTO hunting_buddies VALUES (4, 7, 2);
+INSERT INTO hunting_buddies VALUES (5, 6, 7);
+INSERT INTO hunting_buddies VALUES (6, 5, 8);
+INSERT INTO hunting_buddies VALUES (7, 4, 5);
+INSERT INTO hunting_buddies VALUES (8, 3, 6);
+INSERT INTO hunting_buddies VALUES (9, 2, 10);
+INSERT INTO hunting_buddies VALUES (10, 1, 9);
+INSERT INTO hunting_buddies VALUES (11, 16, 13);
+INSERT INTO hunting_buddies VALUES (12, 15, 14);
+INSERT INTO hunting_buddies VALUES (13, 14, 11);
+INSERT INTO hunting_buddies VALUES (14, 13, 12);
+INSERT INTO hunting_buddies VALUES (15, 12, 16);
+INSERT INTO hunting_buddies VALUES (16, 11, 15);
+
+SELECT * FROM  hunters;
+SELECT * FROM game_type;
+SELECT * FROM hunting_buddies;
+
+SELECT * FROM game_type
+    JOIN hunters
+    ON game_type.id = hunters.id;
+    
+SELECT hunters.first_name, hunters.last_name, hunters.marital_status, hunters.home_state, game_type.upland, game_type.wetland
+    FROM game_type
+    JOIN hunters
+    ON game_type.id = hunters.id
+    ORDER BY hunters.marital_status DESC;
+    
+SELECT a.first_name, a.last_name, b.first_name, b.last_name FROM hunting_buddies
+    JOIN hunters a
+    ON hunting_buddies.hunting_buddy1 = a.id
+    JOIN hunters b
+    ON hunting_buddies.hunting_buddy2 = b.id;
+    
+SELECT hunters.first_name, hunters.last_name, hunters.marital_status, game_type.upland, game_type.wetland FROM hunters
+    JOIN game_type
+    ON hunters.id = game_type.id
+    ORDER BY hunters.last_name ASC;
