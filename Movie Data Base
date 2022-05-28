@@ -1,0 +1,43 @@
+-- Tips:
+--QUESTIONS TO BE ANSWERED--
+--1. How many movie titles are there in the database? (movies only, not tv shows)
+--2. When was the most recent batch of tv shows and/or movies added to the database?
+--3. List all the movies and tv shows in alphabetical order.
+--4. Who was the Director for the movie Bright Star?
+--5. What is the oldest movie in the database and what year was it made?
+
+-- (*) Table names containing punctuation, capitalization, or spaces should be
+--     quoted, e.g. "Test Data.csv".
+-- (*) Add more data by using the Upload Data button.
+-- (*) Create additional schemas for namespacing your tables, e.g. "CREATE SCHEMA my_schema;".
+-- (*) When querying tables created outside of the public (default) schema,
+--     be sure to specify the desired schema, e.g. "SELECT * FROM my_schema."my data.csv";".
+
+--1.
+SELECT COUNT (*)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+WHERE titles.type= 'Movie';
+
+--2.
+SELECT titles.title, titles.date_added
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ORDER BY titles.date_added DESC;
+
+--3.
+SELECT titles.title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ORDER BY titles.title ASC;
+
+
+--4.
+SELECT people.director, titles.title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id=titles.show_id
+ORDER BY titles.title ASC;
+
+--5.
+SELECT titles.title, titles.release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ORDER BY titles.release_year
+LIMIT 5;
