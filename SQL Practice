@@ -1,0 +1,33 @@
+--1. How many orders were placed in January?
+SELECT COUNT(*) FROM BIT_DB.JanSales;
+--ANSWER: 9723
+
+--2. How many of those orders were for an iPhone?
+SELECT COUNT(*) FROM BIT_DB.JanSales JanSales
+WHERE JanSales.Product='iPhone';
+--ANSWER: 379
+
+--3. Select the customer account numbers for all the orders that were placed in February.
+SELECT customer.acctnum
+FROM BIT_DB.customers customer
+LEFT JOIN BIT_DB.FebSales febsales
+ON customer.order_ID=febsales.orderID;
+
+--4. Which product was the cheapest one sold in January, and what was the price? For this one, you are going to use the commands distinct and MIN(). Using 'SELECT distinct' will remove duplicate rows from your results. The MIN() command will allow you to select the smallest value from the price column. This is a hard one - see if you can do it, but don't be afraid to look at the hint or answer if you need to!
+SELECT BIT_DB.JanSales.Product, MIN(BIT_DB.JanSales.price) FROM BIT_DB.JanSales;
+
+--5. What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the products).
+SELECT Product, SUM(Quantity)*price AS revenue FROM JanSales
+GROUP BY Product;
+
+--6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT Product, Quantity, SUM(Quantity)*price AS revenue FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101';
+
+--7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT COUNT(customer.acctnum),
+AVG(feb.Quantity)* feb.price
+FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers customer
+ON feb.orderID=customer.order_id
+WHERE feb.Quantity >= 2;
