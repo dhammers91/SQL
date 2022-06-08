@@ -1,0 +1,51 @@
+/* DIRECTIONS: Think about your favorite apps, and pick one that stores your data- like a game that stores scores, an app that lets you post updates, etc. Now in this project, you're going to imagine that the app stores your data in a SQL database (which is pretty likely!), and write SQL statements that might look like their own SQL.
+
+CREATE a table to store the data.
+INSERT a few example rows in the table.
+Use an UPDATE to emulate what happens when you edit data in the app.
+Use a DELETE to emulate what happens when you delete data in the app. */
+
+
+/* What does the app's SQL look like? */
+
+CREATE TABLE royal_match (
+id INTEGER,
+username TEXT,
+stars INTEGER,
+level INTEGER)
+;
+
+INSERT INTO royal_match (id, username, stars, level) VALUES (1, 'winner12', 15, 20);
+INSERT INTO royal_match (id, username, stars, level) VALUES (2, 'HAMMERTIME1711', 18, 456);
+INSERT INTO royal_match (id, username, stars, level) VALUES (3, 'toadstool1', 27, 210);
+INSERT INTO royal_match (id, username, stars, level) VALUES (4, 'camper5000', 13, 333);
+INSERT INTO royal_match (id, username, stars, level) VALUES (5, 'IWIN100', 2, 59);
+
+
+SELECT * FROM royal_match ORDER BY level DESC;
+
+UPDATE royal_match SET level = 27 WHERE id= 1;
+
+SELECT * FROM royal_match ORDER BY level DESC;
+
+UPDATE royal_match SET username = 'ILOSE415' WHERE id= 5;
+
+SELECT * FROM royal_match ORDER BY username ASC;
+
+ALTER TABLE royal_match ADD boost_pwr INTEGER DEFAULT 'unavailable';
+
+SELECT * FROM royal_match;
+
+UPDATE royal_match SET boost_pwr = 88 WHERE id=2;
+UPDATE royal_match SET boost_pwr = 63 WHERE id=4;
+UPDATE royal_match SET boost_pwr = 57 WHERE id=3;
+UPDATE royal_match SET boost_pwr = 13 WHERE id=5;
+
+
+SELECT * FROM  royal_match;
+
+--player 'ILOSE415' has deleted the app and requested the account to be deleted--
+
+DELETE FROM royal_match WHERE id=5;
+
+SELECT * FROM royal_match;
