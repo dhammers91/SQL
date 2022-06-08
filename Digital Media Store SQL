@@ -1,0 +1,90 @@
+--1. Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+SELECT customers.customerid, customers.firstname, customers.lastname, customers.country FROM customers WHERE customers.country != 'USA';
+
+--2. Show only the Customers from Brazil.
+SELECT * FROM customers WHERE customers.country = 'Brazil';
+
+--3. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT customers.firstname, customers.lastname, invoices.invoiceid, invoices.invoicedate, invoices.billingcountry FROM customers
+JOIN invoices
+ON customers.customerid=invoices.invoiceid;
+
+--4. Show the Employees who are Sales Agents.
+SELECT employees.employeeid, employees.firstname, employees.lastname, employees.hiredate FROM employees
+WHERE employees.title = 'Sales Support Agent'
+ORDER BY employees.hiredate DESC;
+
+--5. Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT invoices.billingcountry FROM invoices ORDER BY invoices.billingcountry ASC LIMIT 10;
+
+SELECT invoices.invoiceid, invoices.customerid, invoices.billingcountry, invoices.total  FROM invoices
+WHERE invoices.billingcountry = 'Argentina' 
+OR invoices.billingcountry = 'Belgium'
+OR invoices.billingcountry = 'Canada'
+OR invoices.billingcountry = 'Denmark'
+OR invoices.billingcountry = 'Finland'
+ORDER BY invoices.total DESC
+LIMIT 50;
+
+
+--6. Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT emp.firstname, emp.lastname, emp.title, inv.invoiceid 
+FROM chinook.employees emp
+JOIN chinook.customers cust ON cust.supportrepid=emp.employeeid
+JOIN chinook.invoices inv ON cust.customerid=inv.customerid;
+
+
+--7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT inv.total, cust.firstname, cust.lastname, cust.country, emp.firstname, emp.lastname
+FROM chinook.employees emp
+JOIN chinook.customers cust ON emp.employeeid=cust.supportrepid
+JOIN chinook.invoices inv ON cust.customerid=inv.customerid;
+
+--8. How many Invoices were there in 2009?
+SELECT COUNT(invoiceid) FROM invoices
+WHERE invoicedate BETWEEN '2009-01-01' AND '2009-12-31';
+
+--9. What are the total sales for 2009?
+SELECT SUM(total) FROM invoices
+WHERE invoicedate BETWEEN '2009-01-01' AND '2009-12-31';
+
+--10. Write a query that includes the purchased track name with each invoice line item.
+SELECT tr.name, items.invoicelineid
+FROM chinook.invoice_items items
+JOIN chinook.tracks tr
+ON items.trackid=tr.trackid;
+
+--11. Write a query that includes the purchased track name AND artist name with each invoice line item.
+SELECT tracks.name, tracks.composer, items.invoicelineid
+FROM chinook.artists art
+JOIN chinook.albums alb ON art.artistid=alb.artistid
+JOIN chinook.tracks tracks ON alb.albumid=tracks.AlbumId
+JOIN chinook.invoice_items items ON tracks.trackid=items.trackid;
+
+--12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT t.name AS 'track name', alb.title AS 'album title', m.name AS 'media type', g.name AS 'genre'
+FROM chinook.albums alb
+JOIN chinook.tracks t ON alb.albumid=t.albumid
+JOIN chinook.media_types m ON t.mediatypeid=m.mediatypeid
+JOIN chinook.genres g ON t.genreid=t.genreid;
+
+--13. Show the total sales made by each sales agent.
+SELECT emp.firstname, emp.lastname,
+ROUND(SUM(inv.total),2) AS 'Total Sales'
+FROM chinook.employees emp
+JOIN chinook.customers cust ON emp.employeeid=cust.supportrepid
+JOIN chinook.invoices inv ON cust.customerid=inv.customerid
+WHERE emp.title= 'Sales Support Agent'
+GROUP BY emp.lastname;
+
+--14. Which sales agent made the most in sales in 2009?
+SELECT emp.lastname, emp.firstname, ROUND(SUM(inv.total),2) AS 'Total Sales'
+FROM chinook.employees emp
+JOIN chinook.customers cust ON cust.supportrepid=emp.employeeid
+JOIN chinook.invoices inv ON inv.customerid=cust.customerid
+WHERE emp.title= 'Sales Support Agent'
+AND inv.invoicedate LIKE '2009%'
+GROUP BY emp.lastname
+ORDER BY ROUND(SUM(inv.total),2) DESC
+LIMIT 1;
+
